@@ -72,6 +72,8 @@ export interface Campaign {
   id: number | string;
   title: string;
   place: string;
+  location?: string;
+  org_name?: string;
   description: string;
   status: string;
   statusBg?: string;
@@ -79,6 +81,7 @@ export interface Campaign {
   target?: number;
   collected?: number;
   date?: string;
+  time?: string;
 }
 
 export interface Post {
