@@ -11,7 +11,8 @@ export const COLORS = {
 };
 
 const activeIp = '192.168.1.36';
+const usePhpCliServer = true;
 
-export const API_URL = Platform.OS === 'web'
-  ? 'http://192.168.1.36/Donor-junction-app/backend-full'
-  : `http://${activeIp}/Donor-junction-app/backend-full`;
+export const API_URL = usePhpCliServer
+  ? (Platform.OS === 'web' ? 'http://localhost:8000' : `http://${activeIp}:8000`)
+  : (Platform.OS === 'web' ? 'http://localhost/Donor_junction/backend' : `http://${activeIp}/Donor_junction/backend`);

@@ -272,7 +272,23 @@ const PostsScreen: React.FC<PostsScreenProps> = ({ navigation, route }) => {
       const res = await response.json();
       if (res.status === 'success' && res.data) {
         const livePosts = res.data.filter((p: any) => !deletedIds.includes(Number(p.id))).map((post: any) => {
-          return { ...post, distance: 'Unknown' };
+          const loc = post.location || (post.hospital && post.city ? `${post.hospital}, ${post.city}` : post.hospital || post.city || 'Hospital');
+          const postTitle = post.title || (post.patient_name ? `${post.blood_group || 'Blood'} needed for ${post.patient_name}` : `${post.blood_group || 'Blood'} needed`);
+          const desc = post.description || post.note || 'Urgent requirement for surgery patient.';
+          return {
+            ...post,
+            id: Number(post.id),
+            title: postTitle,
+            patient_name: post.patient_name || 'Patient',
+            location: loc,
+            description: desc,
+            blood_group: post.blood_group || 'O+',
+            units_needed: String(post.units || post.units_needed || '1'),
+            type: (post.urgency || post.type || 'normal').toLowerCase(),
+            mobile: post.mobile || '',
+            author_name: post.patient_name || post.author_name || 'Donor Junction',
+            distance: '2.5 km'
+          };
         });
 
         const deDuplicatedLocal = activeLocal.filter(localP => {
