@@ -23,7 +23,7 @@ const fetchWithTimeout = (url: string, options: RequestInit = {}, timeout = 4000
 };
 
 const OTPScreen: React.FC<OTPScreenProps> = ({ navigation, route }) => {
-  const { mobile } = route.params || {};
+  const { mobile, otp: expectedOtp, user: preloadedUser } = route.params || {};
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -52,8 +52,8 @@ const OTPScreen: React.FC<OTPScreenProps> = ({ navigation, route }) => {
         body: JSON.stringify({ mobile, otp: otp.trim() })
       }).catch(() => null);
 
-      let userData = {
-        name: `Donor_${mobile.slice(-4)}`,
+      let userData = preloadedUser || {
+        name: `Donor_${mobile?.slice(-4) || 'User'}`,
         mobile: mobile,
         blood_group: 'O+',
         city: 'Chennai'
@@ -70,7 +70,7 @@ const OTPScreen: React.FC<OTPScreenProps> = ({ navigation, route }) => {
       await AsyncStorage.setItem('user_phone', mobile);
       navigation.replace('MainTabs', { user: userData });
     } catch (error) {
-      const fallbackUser = { name: `Donor_${mobile.slice(-4)}`, mobile: mobile, blood_group: 'O+', city: 'Chennai' };
+      const fallbackUser = preloadedUser || { name: `Donor_${mobile?.slice(-4) || 'User'}`, mobile: mobile, blood_group: 'O+', city: 'Chennai' };
       await AsyncStorage.setItem('user', JSON.stringify(fallbackUser));
       await AsyncStorage.setItem('user_phone', mobile);
       navigation.replace('MainTabs', { user: fallbackUser });
@@ -90,7 +90,7 @@ const OTPScreen: React.FC<OTPScreenProps> = ({ navigation, route }) => {
         <Text style={styles.label}>Enter 4-digit OTP</Text>
         <TextInput
           style={styles.inputField}
-          placeholder="OTP (e.g. 1234)"
+          placeholder={`OTP (e.g. ${expectedOtp || '1234'})`}
           placeholderTextColor="#888"
           keyboardType="number-pad"
           maxLength={4}
@@ -101,7 +101,7 @@ const OTPScreen: React.FC<OTPScreenProps> = ({ navigation, route }) => {
 
         <View style={styles.blueInfoBox}>
           <Ionicons name="information-circle" size={16} color="#0C447C" />
-          <Text style={styles.blueInfoText}>Default OTP code: 1234</Text>
+          <Text style={styles.blueInfoText}>OTP Code: {expectedOtp || '1234'}</Text>
         </View>
 
         <TouchableOpacity

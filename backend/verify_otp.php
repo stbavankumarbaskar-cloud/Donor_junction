@@ -16,12 +16,8 @@ try {
     $user = $stmt->fetch();
 
     if (!$user) {
-        $name = 'Donor_' . substr($mobile, -4);
-        $stmtInsert = $pdo->prepare("INSERT INTO users (name, mobile, blood_group, city, password) VALUES (?, ?, 'O+', 'Chennai', '123456')");
-        $stmtInsert->execute([$name, $mobile]);
-
-        $stmt->execute([$mobile]);
-        $user = $stmt->fetch();
+        echo json_encode(['status' => 'error', 'message' => 'User not found. Please register first.']);
+        exit();
     }
 
     echo json_encode([
@@ -40,15 +36,8 @@ try {
     ]);
 } catch (\PDOException $e) {
     echo json_encode([
-        'status' => 'success',
-        'is_registered' => true,
-        'message' => 'OTP verified (Offline Mode)',
-        'user' => [
-            'name' => 'Donor_' . substr($mobile, -4),
-            'mobile' => $mobile,
-            'blood_group' => 'O+',
-            'city' => 'Chennai'
-        ]
+        'status' => 'error',
+        'message' => 'Database error: ' . $e->getMessage()
     ]);
 }
 ?>

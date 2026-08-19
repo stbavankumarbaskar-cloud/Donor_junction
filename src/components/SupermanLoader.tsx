@@ -49,18 +49,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    marginTop: 50,
   },
   image: {
-    width: 350,
-    height: 350,
-    marginBottom: 10,
+    width: 220,
+    height: 134,
+    marginBottom: 24,
   },
   text: {
     color: '#DA0037',
     fontWeight: 'bold',
-    fontSize: 16,
-    marginTop: 10,
+    fontSize: 18,
+    textAlign: 'center',
   }
 });
 

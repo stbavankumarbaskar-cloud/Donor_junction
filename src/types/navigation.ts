@@ -4,7 +4,7 @@ export type RootStackParamList = {
   Splash: undefined;
   Welcome: undefined;
   Login: undefined;
-  OTP: { mobile: string };
+  OTP: { mobile: string; otp?: string; user?: User };
   Register: { mobile: string };
   MainTabs: { screen?: keyof MainTabParamList; user?: User; params?: any };
   Map: { user?: User };

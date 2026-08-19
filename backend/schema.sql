@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `blood_group` VARCHAR(10) NOT NULL,
   `city` VARCHAR(100) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
-  `profile_image` VARCHAR(255) DEFAULT NULL,
+  `profile_image` LONGTEXT DEFAULT NULL,
   `latitude` DECIMAL(10, 8) DEFAULT NULL,
   `longitude` DECIMAL(11, 8) DEFAULT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP

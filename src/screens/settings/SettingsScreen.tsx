@@ -422,9 +422,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation, rout
 
       <ScrollView
         style={{ flex: 1, zIndex: 10 }}
-        contentContainerStyle={{ paddingTop: 100, paddingHorizontal: 20, alignItems: 'center', paddingBottom: 100 }}
-        scrollEnabled={false}
-        bounces={false}
+        contentContainerStyle={{ paddingTop: 100, paddingHorizontal: 20, alignItems: 'center', paddingBottom: 120 }}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.avatarWrapper}>

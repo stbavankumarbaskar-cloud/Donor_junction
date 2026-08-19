@@ -45,6 +45,17 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
       if (response && response.ok) {
         const res = await response.json().catch(() => null);
         if (res && res.status === 'success') {
+          if (res.exists === false) {
+            const registerMsg = `Mobile number +91 ${cleanedMobile} is not registered.\nPlease register your account.`;
+            if (Platform.OS === 'web') {
+              window.alert(registerMsg);
+            } else {
+              Alert.alert("New User", registerMsg);
+            }
+            navigation.navigate('Register', { mobile: cleanedMobile });
+            return;
+          }
+
           const otpCode = res.otp || '1234';
           const alertMsg = `OTP sent to +91 ${cleanedMobile}\nYour OTP: ${otpCode}`;
           if (Platform.OS === 'web') {
@@ -52,21 +63,21 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           } else {
             Alert.alert("Success", alertMsg);
           }
-          navigation.navigate('OTP', { mobile: cleanedMobile });
+          navigation.navigate('OTP', { mobile: cleanedMobile, otp: otpCode, user: res.user });
           return;
         }
       }
 
-      // Offline / fallback navigation so user is never stuck
+      // Offline / fallback navigation
       const fallbackMsg = `OTP sent to +91 ${cleanedMobile}\nDefault OTP: 1234`;
       if (Platform.OS === 'web') {
         window.alert(`Success: ${fallbackMsg}`);
       } else {
         Alert.alert("Success", fallbackMsg);
       }
-      navigation.navigate('OTP', { mobile: cleanedMobile });
+      navigation.navigate('OTP', { mobile: cleanedMobile, otp: '1234' });
     } catch (error) {
-      navigation.navigate('OTP', { mobile: cleanedMobile });
+      navigation.navigate('OTP', { mobile: cleanedMobile, otp: '1234' });
     } finally {
       setLoading(false);
     }

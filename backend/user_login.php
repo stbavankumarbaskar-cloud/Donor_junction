@@ -14,45 +14,39 @@ try {
     $stmt->execute([$mobile]);
     $user = $stmt->fetch();
 
-    if (!$user) {
-        $name = 'Donor_' . substr($mobile, -4);
-        $stmtInsert = $pdo->prepare("INSERT INTO users (name, mobile, blood_group, city, password) VALUES (?, ?, 'O+', 'Chennai', '123456')");
-        $stmtInsert->execute([$name, $mobile]);
+    if ($user) {
+        // Old number: User exists, generate random 4-digit OTP
+        $otp = str_pad((string)rand(1000, 9999), 4, '0', STR_PAD_LEFT);
         
-        $stmt->execute([$mobile]);
-        $user = $stmt->fetch();
+        echo json_encode([
+            'status' => 'success',
+            'exists' => true,
+            'is_registered' => true,
+            'otp' => $otp,
+            'message' => 'OTP sent successfully',
+            'user' => [
+                'id' => (int)$user['id'],
+                'name' => $user['name'],
+                'mobile' => $user['mobile'],
+                'email' => $user['email'] ?? '',
+                'blood_group' => $user['blood_group'] ?? 'O+',
+                'city' => $user['city'] ?? 'Chennai',
+                'profile_image' => $user['profile_image'] ?? null
+            ]
+        ]);
+    } else {
+        // New number: User does NOT exist, send to register page
+        echo json_encode([
+            'status' => 'success',
+            'exists' => false,
+            'is_registered' => false,
+            'message' => 'Mobile number not registered. Please register.'
+        ]);
     }
-
-    echo json_encode([
-        'status' => 'success',
-        'exists' => true,
-        'is_registered' => true,
-        'otp' => '1234',
-        'message' => 'OTP sent successfully',
-        'user' => [
-            'id' => (int)$user['id'],
-            'name' => $user['name'],
-            'mobile' => $user['mobile'],
-            'email' => $user['email'] ?? '',
-            'blood_group' => $user['blood_group'] ?? 'O+',
-            'city' => $user['city'] ?? 'Chennai',
-            'profile_image' => $user['profile_image'] ?? null
-        ]
-    ]);
 } catch (\PDOException $e) {
-    // If DB offline, still allow login with mock user so app never gets stuck
     echo json_encode([
-        'status' => 'success',
-        'exists' => true,
-        'is_registered' => true,
-        'otp' => '1234',
-        'message' => 'OTP sent (Offline Mode)',
-        'user' => [
-            'name' => 'Donor_' . substr($mobile, -4),
-            'mobile' => $mobile,
-            'blood_group' => 'O+',
-            'city' => 'Chennai'
-        ]
+        'status' => 'error',
+        'message' => 'Database connection error: ' . $e->getMessage()
     ]);
 }
 ?>
