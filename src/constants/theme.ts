@@ -10,7 +10,7 @@ export const COLORS = {
   INFO: '#0C447C'
 };
 
-const activeIp = '192.168.1.49';
+const activeIp = '127.0.0.1';
 const usePhpCliServer = true;
 
 export const API_URL = usePhpCliServer
