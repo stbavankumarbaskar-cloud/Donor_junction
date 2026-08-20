@@ -29,7 +29,7 @@ const getPath = (bottomInset: number) => {
 const CurvedTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
   const insets = useSafeAreaInsets();
   const bottomInset = Math.max(insets?.bottom || 0, 15);
-  
+
   const { showLoadingLocked } = useLoading();
   const translateX = useSharedValue(0);
 
@@ -77,8 +77,8 @@ const CurvedTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
       </Animated.View>
 
       {/* Floating Active Circle */}
-      <Animated.View 
-        pointerEvents="none" 
+      <Animated.View
+        pointerEvents="none"
         style={[styles.activeCircleWrapper, { bottom: bottomInset + 20 }, animatedStyle]}
       >
         <View style={styles.activeCircle}>

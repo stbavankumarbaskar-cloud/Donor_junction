@@ -13,7 +13,7 @@ type BlogScreenProps = {
   navigation: BottomTabNavigationProp<MainTabParamList, 'Blog'>;
 };
 
-const fetchWithTimeout = (url: string, options: RequestInit = {}, timeout = 3000): Promise<Response> => {
+const fetchWithTimeout = (url: string, options: RequestInit = {}, timeout = 10000): Promise<Response> => {
   return Promise.race([
     fetch(url, options),
     new Promise<Response>((_, reject) => setTimeout(() => reject(new Error('timeout')), timeout))

@@ -229,57 +229,58 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={{ flex: 1, backgroundColor: '#f8f8f8' }} contentContainerStyle={{ paddingBottom: 100 }}>
-        {/* Carousel */}
-        <ScrollView
-          ref={carouselRef}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingLeft: 20, paddingBottom: 25, paddingTop: 10, paddingRight: 20 }}
-          snapToInterval={width * 0.88 + 15}
-          snapToAlignment="start"
-          decelerationRate="fast"
-          disableIntervalMomentum={true}
-        >
-          {nutritionTips.map((item) => {
-            const isRemoteUrl = typeof item.image === 'string' && (item.image.startsWith('http://') || item.image.startsWith('https://'));
-            const imageSrc = isRemoteUrl ? { uri: item.image } : item.image;
-            return (
-              <TouchableOpacity
-                key={item.id.toString()}
-                style={{
-                  width: width * 0.88,
-                  backgroundColor: '#F0F2F4',
-                  borderRadius: 20,
-                  padding: 15,
-                  marginRight: 15,
-                  height: 150,
-                  flexDirection: 'row',
-                  alignItems: 'center'
-                }}
-                onPress={() => navigation.navigate('Tips')}
-              >
-                <Image
-                  source={imageSrc}
-                  style={{ width: 120, height: 120, borderRadius: 8, marginRight: 15, backgroundColor: '#FFFFFF' }}
-                  resizeMode="cover"
-                />
-                <View style={{ flex: 1 }}>
-                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000000', marginBottom: 4 }} numberOfLines={1}>{item.name}</Text>
-                  <Text style={{ fontSize: 12, color: '#333333', lineHeight: 18 }} numberOfLines={4}>{item.teaser}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
+      <ScrollView style={{ flex: 1, backgroundColor: '#EAEAEA' }} contentContainerStyle={{ flexGrow: 1, paddingBottom: 90 }}>
+        {/* Carousel Container */}
+        <View style={{ backgroundColor: '#f8f8f8' }}>
+          <ScrollView
+            ref={carouselRef}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingLeft: 20, paddingBottom: 25, paddingTop: 10, paddingRight: 20 }}
+            snapToInterval={width * 0.88 + 15}
+            snapToAlignment="start"
+            decelerationRate="fast"
+            disableIntervalMomentum={true}
+          >
+            {nutritionTips.map((item) => {
+              const isRemoteUrl = typeof item.image === 'string' && (item.image.startsWith('http://') || item.image.startsWith('https://'));
+              const imageSrc = isRemoteUrl ? { uri: item.image } : item.image;
+              return (
+                <TouchableOpacity
+                  key={item.id.toString()}
+                  style={{
+                    width: width * 0.88,
+                    backgroundColor: '#F0F2F4',
+                    borderRadius: 20,
+                    padding: 15,
+                    marginRight: 15,
+                    height: 150,
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                  }}
+                  onPress={() => navigation.navigate('Tips')}
+                >
+                  <Image
+                    source={imageSrc}
+                    style={{ width: 120, height: 120, borderRadius: 8, marginRight: 15, backgroundColor: '#FFFFFF' }}
+                    resizeMode="cover"
+                  />
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000000', marginBottom: 4 }} numberOfLines={1}>{item.name}</Text>
+                    <Text style={{ fontSize: 12, color: '#333333', lineHeight: 18 }} numberOfLines={4}>{item.teaser}</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
 
         {/* Lower gray container for shortcuts */}
         <View style={{
           backgroundColor: '#EAEAEA',
           flex: 1,
           paddingTop: 25,
-          paddingBottom: 40,
-          minHeight: height - 320,
+          paddingBottom: 20,
         }}>
           <View style={{ paddingHorizontal: 20 }}>
             {/* Row 1 */}

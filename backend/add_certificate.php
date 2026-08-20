@@ -13,7 +13,7 @@ if (empty($mobile) || empty($donor_name)) {
     echo json_encode(['status' => 'error', 'message' => 'Mobile number and donor name are required']);
     exit();
 }
-
+   
 try {
     $stmt = $pdo->prepare("INSERT INTO certificates (mobile, donor_name, donation_date, certificate_code, certificate_url) VALUES (?, ?, ?, ?, ?)");
     $stmt->execute([$mobile, $donor_name, $donation_date, $certificate_code, $certificate_url]);
