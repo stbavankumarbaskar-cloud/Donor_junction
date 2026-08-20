@@ -1,4 +1,5 @@
 import { Platform } from 'react-native';
+import Constants from 'expo-constants';
 
 export const COLORS = {
   PRIMARY: '#DA0037',
@@ -10,7 +11,23 @@ export const COLORS = {
   INFO: '#0C447C'
 };
 
-const activeIp = '127.0.0.1';
+const getHostIp = () => {
+  if (Platform.OS === 'web') return 'localhost';
+  
+  // Extract host IP dynamically from Expo server URL if available
+  const hostUri = Constants.expoConfig?.hostUri || (Constants as any).manifest?.debuggerHost || (Constants as any).manifest2?.extra?.expoGo?.debuggerHost;
+  if (hostUri) {
+    const ip = hostUri.split(':')[0];
+    if (ip && ip !== 'localhost' && ip !== '127.0.0.1') {
+      return ip;
+    }
+  }
+  
+  // Fallback to current LAN IP
+  return '192.168.1.56';
+};
+
+const activeIp = getHostIp();
 const usePhpCliServer = true;
 
 export const API_URL = usePhpCliServer

@@ -92,7 +92,13 @@ const BlogScreen: React.FC<BlogScreenProps> = ({ navigation }) => {
     setLoading(true);
     showLoading();
     try {
-      const response = await fetchWithTimeout(`${API_URL}/get_blogs.php`);
+      let response;
+      try {
+        response = await fetchWithTimeout(`${API_URL}/get_blogs.php`);
+      } catch (primaryErr) {
+        // Fallback to localhost reverse port
+        response = await fetchWithTimeout(`http://127.0.0.1:8000/get_blogs.php`);
+      }
       const res = await response.json();
       if (res.status === 'success' && res.blogs) {
         setBlogs(res.blogs);
